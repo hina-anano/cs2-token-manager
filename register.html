@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>註冊頁面</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #121212;
+                color: #ffffff;
+                margin: 0;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .form-container {
+                max-width: 400px;
+                margin: auto;
+                padding: 20px;
+                background-color: #292929;
+                border-radius: 8px;
+                border: 1px solid #444;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                padding: 12px;
+                margin-bottom: 15px;
+                border: 1px solid #333;
+                border-radius: 4px;
+                background-color: #1a1a1a;
+                color: #ffffff;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                padding: 12px;
+                background-color: #3a3a3a;
+                color: #ffffff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #444;
+            }
+            .login-link {
+                text-align: center;
+                margin-top: 15px;
+            }
+            .error-message {
+                color: #ff4d4d; /* 錯誤訊息顏色 */
+                margin-bottom: 15px;
+                display: none; /* 初始隱藏錯誤訊息 */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>註冊頁面</h1>
+
+        <div class="form-container">
+            <div class="error-message" id="errorMessage">請填寫正確的資訊。</div>
+            <form id="registerForm" onsubmit="return validateForm();">
+                <label for="username">使用者名稱：</label>
+                <input type="text" id="username" name="username" required />
+
+                <label for="password">密碼：</label>
+                <input type="password" id="password" name="password" required />
+
+                <label for="confirm-password">確認密碼：</label>
+                <input type="password" id="confirm-password" name="confirm-password" required />
+
+                <label for="code">邀請碼：</label>
+                <input type="text" id="code" name="code" required />
+
+                <button type="submit" id="register">註冊</button>
+            </form>
+
+            <div class="login-link">
+                <a href="login.html" style="color: #ffffff">已經有帳號？點此登入</a>
+            </div>
+        </div>
+
+        <script>
+            const registerButton = document.querySelector("#register");
+
+            const form = document.querySelector("#registerForm");
+
+            registerButton.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+                const code = document.getElementById("code").value;
+
+                if (password !== confirmPassword) {
+                    document.getElementById("errorMessage").innerText = "密碼和確認密碼不匹配。";
+                    document.getElementById("errorMessage").style.display = "block"; // 顯示錯誤訊息
+                    return;
+                }
+
+                registerButton.disabled = true;
+
+                fetch("http://a301.dawnoriginal.com:30022/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        code: code,
+                    }),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("網路請求失敗");
+                        }
+                        return response.json(); // 將結果轉換為 JSON 格式
+                    })
+                    .then((data) => console.log(data))
+                    .catch((error) => console.error("發生錯誤: ", error))
+                    .finally(() => {
+                        registerButton.disabled = false; // 無論成功或失敗都重新啟用按鈕
+                    });
+            });
+
+            function validateForm() {
+                const username = document.getElementById("newUsername").value;
+                const password = document.getElementById("newPassword").value;
+                const inviteCode = document.getElementById("inviteCode").value;
+
+                let errorMessage = "";
+
+                // 簡單的驗證示例
+                if (username.length < 3) {
+                    errorMessage = "使用者名稱至少要 3 個字元。";
+                } else if (password.length < 6) {
+                    errorMessage = "密碼至少要 6 個字元。";
+                }
+
+                if (errorMessage) {
+                    document.getElementById("errorMessage").innerText = errorMessage;
+                    document.getElementById("errorMessage").style.display = "block"; // 顯示錯誤訊息
+                    return false; // 阻止表單提交
+                }
+
+                return true; // 允許表單提交
+            }
+        </script>
+    </body>
+</html>

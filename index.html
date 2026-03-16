@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Information Manager</title>
+        <title>Token 管理頁面</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -15,109 +15,79 @@
             h1 {
                 text-align: center;
             }
-            form {
-                max-width: 600px;
-                margin: 0 auto;
-                background: #1e1e1e;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            }
-            input,
-            select {
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border: 1px solid #333;
-                border-radius: 4px;
-                background: #292929;
-                color: #ffffff;
-            }
-            button {
-                background-color: #3a3a3a;
-                color: #ffffff;
-                padding: 10px 15px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                width: 100%;
-            }
-            button:hover {
-                background-color: #444;
-            }
             table {
                 width: 100%;
-                margin-top: 20px;
                 border-collapse: collapse;
             }
             th,
             td {
                 border: 1px solid #333;
-                padding: 10px;
+                padding: 5px;
                 text-align: left;
             }
             th {
                 background-color: #444;
             }
+            .edit-button {
+                background-color: #3a3a3a;
+                color: #ffffff;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .edit-button:hover {
+                background-color: #444;
+            }
         </style>
     </head>
     <body>
-        <h1>Information Manager</h1>
-        <form id="infoForm">
-            <input type="text" id="name" placeholder="Name" required />
-            <input type="date" id="date" required />
-            <input type="text" id="type" placeholder="Type" required />
-            <input type="number" id="rating" placeholder="Rating" min="1" max="5" required />
-            <select id="status" required>
-                <option value="">Select Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
-            <input type="number" id="count" placeholder="Count" required />
-            <button type="submit">Add Info</button>
-        </form>
-        <table id="infoTable">
+        <h1>Token 管理頁面</h1>
+
+        <table id="tokenTable">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Rating</th>
-                    <th>Status</th>
-                    <th>Count</th>
+                    <th>帳號名稱</th>
+                    <!-- <th style="width: 150px">日期</th> -->
+                    <th>購買日期</th>
+                    <!-- 日期欄的寬度 -->
+                    <th>類型</th>
+                    <th>評分</th>
+                    <th>狀態</th>
+                    <th>VAC 次數</th>
+                    <th>動作</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Dynamic Rows Here -->
+                <tr>
+                    <td>Token A</td>
+                    <td>2023-03-10</td>
+                    <td>類型 1</td>
+                    <td>5</td>
+                    <td>活躍</td>
+                    <td>10</td>
+                    <td><button class="edit-button">編輯</button></td>
+                </tr>
+                <tr>
+                    <td>Token B</td>
+                    <td>2023-03-11</td>
+                    <td>類型 2</td>
+                    <td>3</td>
+                    <td>非活躍</td>
+                    <td>5</td>
+                    <td><button class="edit-button">編輯</button></td>
+                </tr>
+                <tr>
+                    <td>Token C</td>
+                    <td>2023-03-12</td>
+                    <td>類型 3</td>
+                    <td>4</td>
+                    <td>活躍</td>
+                    <td>8</td>
+                    <td><button class="edit-button">編輯</button></td>
+                </tr>
+                <!-- 可根據需要添加更多數據 -->
             </tbody>
         </table>
-
-        <script>
-            const form = document.getElementById("infoForm");
-            const tableBody = document.querySelector("#infoTable tbody");
-
-            form.addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                const name = document.getElementById("name").value;
-                const date = document.getElementById("date").value;
-                const type = document.getElementById("type").value;
-                const rating = document.getElementById("rating").value;
-                const status = document.getElementById("status").value;
-                const count = document.getElementById("count").value;
-
-                const newRow = tableBody.insertRow();
-                newRow.innerHTML = `
-                <td>${name}</td>
-                <td>${date}</td>
-                <td>${type}</td>
-                <td>${rating}</td>
-                <td>${status}</td>
-                <td>${count}</td>
-            `;
-
-                form.reset();
-            });
-        </script>
     </body>
 </html>
