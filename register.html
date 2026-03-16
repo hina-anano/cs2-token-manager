@@ -126,7 +126,11 @@
                         }
                         return response.json(); // 將結果轉換為 JSON 格式
                     })
-                    .then((data) => console.log(data))
+                    .then((data) => {
+                        console.log(data);
+                        document.getElementById("errorMessage").innerText = "好了";
+                        document.getElementById("errorMessage").style.display = "block"; // 顯示錯誤訊息
+                    })
                     .catch((error) => console.error("發生錯誤: ", error))
                     .finally(() => {
                         registerButton.disabled = false; // 無論成功或失敗都重新啟用按鈕
